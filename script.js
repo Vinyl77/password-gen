@@ -1,0 +1,118 @@
+var enter;
+var confirmNumber;
+var confirmSymbol;
+var confirmUppercase;
+var confirmLowercase;
+
+symbol = ["!", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", "\:", "\;", " < ", "=", " > ", " ? ", "@",];
+
+number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+alpha = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+space = [];
+
+var choices;
+
+function toUpper(x) {
+    return x.toUpperCase();
+}
+
+alpha2 = alpha.map(toUpper);
+
+var get = document.querySelector("#generate");
+
+get.addEventListener("click", function () {
+    ps = generatePassword();
+    document.getElementById("password").placeholder = ps;
+});
+
+function generatePassword() {
+    enter = parseInt(prompt("A choice between 8 and 128 characters for your password"));
+
+    if (!enter) {
+        alert("Sorry, but this needs a choice");
+    } else if (enter < 8 || enter > 128) {
+
+    enter = parseInt(prompt("You must choose between 8 and 128"));
+
+} else {
+
+    confirmNumber = confirm("Will this contain numbers?");
+    confirmSymbol = confirm("Will this contain special symbols?");
+    confirmUppercase = confirm("Will this contain Uppercase letters?");
+    confirmLowercase = confirm("Will this contain Lowercase letters?");
+};
+
+ if (!confirmSymbol && !confirmNumber && !confirmUppercase && !confirmLowercase) {
+      choices = alert("You must choose a criteria!");
+ }
+else if (confirmSymbol && confirmNumber && confirmUppercase && confirmLowercase) {
+
+
+    choices = symbol.concat(number, alpha, alpha2);
+}
+
+else if (confirmSymbol && confirmNumber && confirmUppercase) {
+    choices = symbol.concat(number, alpha2);
+}
+else if (confirmSymbol && confirmNumber && confirmLowercase) {
+    choices = symbol.concat(number, alpha);
+}
+else if (confirmSymbol && confirmLowercase && confirmUppercase) {
+    choices = symbol.concat(alpha, alpha2);
+}
+else if (confirmNumber && confirmLowercase && confirmUppercase) {
+    choices = number.concat(alpha, alpha2);
+}
+// Else if for 2 positive options 
+else if (confirmSymbol && confirmNumber) {
+    choices = symbol.concat(number);
+
+} else if (confirmSymbol && confirmLowercase) {
+    choices = symbol.concat(alpha);
+
+} else if (confirmSymbol && confirmUppercase) {
+    choices = symbol.concat(alpha2);
+}
+else if (confirmLowercase && confirmNumber) {
+    choices = alpha.concat(number);
+
+} else if (confirmLowercase && confirmUppercase) {
+    choices = alpha.concat(alpha2);
+
+} else if (confirmNumber && confirmUppercase) {
+    choices = number.concat(alpha2);
+}
+// Else if for 1 positive option
+else if (confirmSymbol) {
+    choices = symbol;
+}
+else if (confirmNumber) {
+    choices = number;
+}
+else if (confirmLowercase) {
+    choices = alpha;
+}
+// Created space variable to fill uppercase conversion
+else if (confirmUppercase) {
+    choices = space.concat(alpha2);
+};
+
+// password variable is an array placeholder for user generated amount of length
+var password = [];
+
+// Start random selection variables:
+// Random selection for all variables: 
+for (var i = 0; i < enter; i++) {
+    var pickChoices = choices[Math.floor(Math.random() * choices.length)];
+    password.push(pickChoices);
+}
+
+var ps = password.join("");
+UserInput(ps);
+return ps;
+}
+function UserInput(ps) {
+    document.getElementById("password").textContent = ps;
+}
