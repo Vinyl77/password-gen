@@ -1,118 +1,74 @@
-var enter;
-var confirmNumber;
-var confirmSymbol;
-var confirmUppercase;
-var confirmLowercase;
+var generateBtn = document.querySelector("#generate");
 
-symbol = ["!", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", "\:", "\;", " < ", "=", " > ", " ? ", "@",];
+// Write password to the #password input
+function writePassword() {
+    // GIVEN I need a new, secure password
+    var password = generatePassword();
+    var passwordText = document.querySelector("#password");
 
-number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-alpha = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-
-space = [];
-
-var choices;
-
-function toUpper(x) {
-    return x.toUpperCase();
+    passwordText.value = password;
 }
 
-alpha2 = alpha.map(toUpper);
+function generatePassword () {
+    // prompt for the length of the password
+    var passLength = prompt("Please enter how many characters you would like your password to be. \nMust be between 8 - 128 characters.");
+    
+    var lengthConfirm = parseInt(passLength);
+    console.log(lengthConfirm);
+ 
+// choose a length of at least 8 characters and no more than 128 characters
+    if (passLength < 8 || passLength > 128 || isNaN(passLength)) {
+        alert ("Error. Choice is not valid. Please try again.");
+        return;
+    }
 
-var get = document.querySelector("#generate");
-
-get.addEventListener("click", function () {
-    ps = generatePassword();
-    document.getElementById("password").placeholder = ps;
-});
-
-function generatePassword() {
-    enter = parseInt(prompt("A choice between 8 and 128 characters for your password"));
-
-    if (!enter) {
-        alert("Sorry, but this needs a choice");
-    } else if (enter < 8 || enter > 128) {
-
-    enter = parseInt(prompt("You must choose between 8 and 128"));
-
-} else {
-
-    confirmNumber = confirm("Will this contain numbers?");
-    confirmSymbol = confirm("Will this contain special symbols?");
-    confirmUppercase = confirm("Will this contain Uppercase letters?");
-    confirmLowercase = confirm("Will this contain Lowercase letters?");
-};
-
- if (!confirmSymbol && !confirmNumber && !confirmUppercase && !confirmLowercase) {
-      choices = alert("You must choose a criteria!");
- }
-else if (confirmSymbol && confirmNumber && confirmUppercase && confirmLowercase) {
+var passwordContent = [];
+var upperCaseChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" .split("");
+var lowerCaseChar = "abcdefghiklmnopqrsttuvwxtz" .split("");
+var numberChar = "0123456789" .split ("");
+var specialChar = "*&^%$#@!?><{}" .split("");
 
 
-    choices = symbol.concat(number, alpha, alpha2);
+// we need a confirm to ask the user if they want to use lowercase
+var lowerCaseConfirm = confirm("Do you want your password to include lowercase letters?");
+    if(lowerCaseConfirm === true) {
+        for (var i = 0; i < lowerCaseChar.length; i++) {
+            passwordContent.push(lowerCaseChar[i]);
+        }
+    }
+// we need a confirm to ask the user if they want to use uppercase
+var upperCaseConfirm = confirm("Do you want your password to include uppercase letters?");
+    if (upperCaseConfirm === true) {
+        for (var i = 0; i < upperCaseChar.length; i++) {
+            passwordContent.push(upperCaseChar[i]);
+        }
+    }
+// we need a confirm to ask the user if they want to use numeric
+var numberConfirm = confirm("Do you want your password to include numbers");
+    if (numberConfirm === true) {
+        for (var i = 0; i < numberChar.length; i++) {
+            passwordContent.push(numberChar[i]);
+        }
+    }
+// we need a confirm to ask the user if they want to use special characters    
+var specialConfirm = confirm("Do you want your password to include special characters?");
+    if (specialConfirm === true) {
+        for (var i = 0; i < specialChar.length; i++) {
+            passwordContent.push(specialChar[i]);
+        }
+    }
+
+// using the number from above and the 4 booleans, create password
+ var randomPassword = "";
+ for (var i = 0; i < lengthConfirm; i++) {
+        passwordContent[
+         Math.floor(Math.random() * passwordContent.length)];
+     randomPassword +=
+         passwordContent[
+            Math.floor(Math.random() * passwordContent.length)
+        ];
+    }
+ return randomPassword;
 }
 
-else if (confirmSymbol && confirmNumber && confirmUppercase) {
-    choices = symbol.concat(number, alpha2);
-}
-else if (confirmSymbol && confirmNumber && confirmLowercase) {
-    choices = symbol.concat(number, alpha);
-}
-else if (confirmSymbol && confirmLowercase && confirmUppercase) {
-    choices = symbol.concat(alpha, alpha2);
-}
-else if (confirmNumber && confirmLowercase && confirmUppercase) {
-    choices = number.concat(alpha, alpha2);
-}
-// Else if for 2 positive options 
-else if (confirmSymbol && confirmNumber) {
-    choices = symbol.concat(number);
-
-} else if (confirmSymbol && confirmLowercase) {
-    choices = symbol.concat(alpha);
-
-} else if (confirmSymbol && confirmUppercase) {
-    choices = symbol.concat(alpha2);
-}
-else if (confirmLowercase && confirmNumber) {
-    choices = alpha.concat(number);
-
-} else if (confirmLowercase && confirmUppercase) {
-    choices = alpha.concat(alpha2);
-
-} else if (confirmNumber && confirmUppercase) {
-    choices = number.concat(alpha2);
-}
-// Else if for 1 positive option
-else if (confirmSymbol) {
-    choices = symbol;
-}
-else if (confirmNumber) {
-    choices = number;
-}
-else if (confirmLowercase) {
-    choices = alpha;
-}
-// Created space variable to fill uppercase conversion
-else if (confirmUppercase) {
-    choices = space.concat(alpha2);
-};
-
-// password variable is an array placeholder for user generated amount of length
-var password = [];
-
-// Start random selection variables:
-// Random selection for all variables: 
-for (var i = 0; i < enter; i++) {
-    var pickChoices = choices[Math.floor(Math.random() * choices.length)];
-    password.push(pickChoices);
-}
-
-var ps = password.join("");
-UserInput(ps);
-return ps;
-}
-function UserInput(ps) {
-    document.getElementById("password").textContent = ps;
-}
+generateBtn.addEventListener("click", writePassword);
