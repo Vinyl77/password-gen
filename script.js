@@ -2,7 +2,6 @@ var generateBtn = document.querySelector("#generate");
 
 // Write password to the #password input
 function writePassword() {
-    // GIVEN I need a new, secure password
     var password = generatePassword();
     var passwordText = document.querySelector("#password");
 
@@ -17,17 +16,20 @@ function generatePassword () {
     console.log(lengthConfirm);
  
 // choose a length of at least 8 characters and no more than 128 characters
-    if (passLength < 8 || passLength > 128 || isNaN(passLength)) {
+    if (passLength < 8 || passLength > 128) {
         alert ("Choice is not valid. Please try again.");
         return;
     }
 
-var passwordContent = [];
-var upperCaseChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" .split("");
-var lowerCaseChar = "abcdefghiklmnopqrsttuvwxtz" .split("");
-var numberChar = "0123456789" .split ("");
-var specialChar = "*&^%$#@!?><{}" .split("");
-// added split method to split the string between each character.
+var passwordContent = []; 
+// this variable calls any for any variable, I used the push method with this variable.
+var upperCaseChar = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W",  "X", "Y", "Z"];
+var lowerCaseChar = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+var numberChar = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+var specialChar = ["*", "&", "^", "%", "$", "#", "@", "!", "?", ">", "<", "{", "}"];
+
+
+
 
 
 // confirmation that user wants to use lowercase letters
@@ -59,15 +61,16 @@ var specialConfirm = confirm("Do you want your password to include special chara
         }
     }
 
-// using the number from above along with if statements, booleans, and for loops to generate password.
+// using length confirm from above along with if statements, booleans, and for loops to generate password.
  var randomPassword = "";
  for (var i = 0; i < lengthConfirm; i++) {
         passwordContent[
          Math.floor(Math.random() * passwordContent.length)];
-     randomPassword =
+     randomPassword+=
          passwordContent[
             Math.floor(Math.random() * passwordContent.length)
         ];
+//
     }
  return randomPassword;
 }
